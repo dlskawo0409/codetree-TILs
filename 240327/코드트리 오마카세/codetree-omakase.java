@@ -123,7 +123,8 @@ class Solution{
 //				System.out.println(point+" "+x +" "+i );
 				for(Susi now : belt[x]) {
 					if(!now.eat && now.name.equals(people[i].name)) {
-						now.eat = true;
+					
+						belt[x].remove(now);
 						people[i].n--;
 						if(people[i].n <= 0) { // 다 먹어서 나감
 							people[i] = null;
