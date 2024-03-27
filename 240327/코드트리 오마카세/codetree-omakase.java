@@ -121,10 +121,12 @@ class Solution{
 			if(set[i]) { // 자리에 사람이 있으면
 				int x = findX(point, i);
 //				System.out.println(point+" "+x +" "+i );
-				for(Susi now : belt[x]) {
+				ArrayList<Integer> temp = new ArrayList<>();
+				for(int j = 0; j<belt[x].size(); j++) {
+					Susi now = belt[x].get(j);
 					if(!now.eat && now.name.equals(people[i].name)) {
-					
-						belt[x].remove(now);
+						now.eat = true;
+						temp.add(j);
 						people[i].n--;
 						if(people[i].n <= 0) { // 다 먹어서 나감
 							people[i] = null;
@@ -132,7 +134,13 @@ class Solution{
 							break;
 						}
 					}
+					
 				}
+				
+				for(int j = 0; j<temp.size(); j++) {
+					belt[x].remove(temp.get(j)-j);
+				}
+				
 			}
 		}
 	}
