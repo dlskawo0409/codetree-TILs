@@ -112,6 +112,7 @@ class Solution{
 //						if(z == 1)
 //							break;
 					}
+		
 				}
 				if(pushed) { // 밀렸다면 
 					//데미지 체크
@@ -129,6 +130,11 @@ class Solution{
 					}
 					
 				}
+				else { // 그냥 혼자 명령에 따라 움직임
+					
+					now.row = tempRow;
+					now.col = tempCol;
+				}
 
 			}
 			else {
@@ -137,6 +143,7 @@ class Solution{
 
 		}
 		else { // 밖으로 나가버림
+//			System.out.println(knightNum+" die by out of map");
 			now.live = false;
 			deleteKnight(now.row, now.col, now.h, now.w);
 			return true;
