@@ -142,7 +142,7 @@ class Solution{
 
 		}
 		else { // 밖으로 나가버림
-			System.out.println(knightNum+" die by out of map");
+			// System.out.println(knightNum+" die by out of map");
 			now.live = false;
 			deleteKnight(now.row, now.col, now.h, now.w);
 			return true;
