@@ -7,6 +7,7 @@ class Knight{
 	int h;
 	int w;
 	int k;
+	int damage = 0;
 	boolean live = true;
 	
 	Knight(int row, int col, int h, int w ,int k){
@@ -75,6 +76,13 @@ class Solution{
 			int direction = Integer.parseInt(st.nextToken());
 //			System.out.println(knightNum);
 			move(knightNum, direction, false);
+//			printKnightMap();
+//			System.out.println();
+		}
+		for(int i = 1; i<=N; i++) {
+			if(knightList[i].live) {
+				answer += knightList[i].damage;
+			}
 		}
 		System.out.println(answer);
 		
@@ -94,9 +102,9 @@ class Solution{
 		
 		
 		
-		if(isInMap(tempRow, tempCol, now.h, now.w )) {
+		if(isInMap(tempRow, tempCol, now.h, now.w ) && isNotWall(tempRow, tempCol, now.h, now.w)) {// 벽이나 밖이면 움직일 수 있음 
 //			System.out.println(knightNum + " is in Map");
-			if(isNotWall(tempRow, tempCol, now.h, now.w)) {  // 벽이 아니면 움직일 수 있음 
+
 				// 기사가 있는지 체크
 				Set<Integer> nextKnight = getKnightNum(tempRow, tempCol, now.h, now.w, knightNum);
 				if(nextKnight.size()!= 0) {
@@ -104,8 +112,9 @@ class Solution{
 //					int z = 0;
 					while(it.hasNext()) {
 //						z ++;
-						
-						if(!move(it.next(), direction, true)) { 
+						int next = it.next();
+//						System.out.println(next);
+						if(!move(next, direction, true)) { 
 							return false;
 						}
 //						if(z == 1)
@@ -115,39 +124,29 @@ class Solution{
 				}
 				if(pushed) { // 밀렸다면 
 					//데미지 체크
-					int tempK = knightDie(tempRow, tempCol, now.h, now.w, now.k);
-					if(tempK == 0) { // 죽으면
+					int damage = knightDie(tempRow, tempCol, now.h, now.w);
+					
+					if(damage >= now.k) { // 죽으면
 						now.live = false;
 						deleteKnight(now.row, now.col, now.h, now.w);
 						return true;
 					}
 					else {
-						now.k = tempK;
-						now.row = tempRow;
-						now.col = tempCol;
-						return true;
+						now.k -= damage;
+						now.damage += damage;
+
 					}
 					
 				}
 				// 그냥 혼자 명령에 따라 움직임
-					
+				changeKnightMap(now, tempRow, tempCol, knightNum);
 				now.row = tempRow;
 				now.col = tempCol;
-
+				
+				return true;
 
 			}
-			else { // 움직일 곳에 벽이 있어서 못 움직임
-				return false;
-			};
 
-		}
-		else { // 밖으로 나가버림
-			// System.out.println(knightNum+" die by out of map");
-			now.live = false;
-			deleteKnight(now.row, now.col, now.h, now.w);
-			return true;
-		}
-		
 		return false;
 	}
 	
@@ -193,19 +192,40 @@ class Solution{
 	}
 	
 	
-	protected int knightDie(int row, int col, int h, int w , int k) {
+	protected int knightDie(int row, int col, int h, int w) {
+		int result = 0;
 		for(int i = row; i<row + h; i++) {
 			for(int j = col; j<col + w; j++) {
 				if(Map[i][j] == 1) {
-					k--;
-					answer ++;
-				}
-				if(k == 0) {
-					return 0;
+					result ++;
 				}
 			}
 		}
-		return k;
+//		System.out.println("answer : "+answer);
+		return result;
+	}
+	
+	protected void changeKnightMap(Knight knight, int row, int col, int num) {
+		for(int i = knight.row; i<knight.row+knight.h; i++) {
+			for(int j = knight.col; j<knight.col + knight.w; j++) {
+				knightMap[i][j] = 0;
+			}
+		}
+		for(int i = row; i<row+knight.h; i++) {
+			for(int j = col; j<col + knight.w; j++) {
+				knightMap[i][j] = num;
+			}
+		}
+	}
+	
+	protected void printKnightMap() {
+		for(int i = 1; i<=L ; i++) {
+			for(int j = 1; j<=L; j++) {
+				System.out.print(knightMap[i][j]+" ");
+			}
+			System.out.println();
+		}
+		System.out.println();
 	}
 	
 }
