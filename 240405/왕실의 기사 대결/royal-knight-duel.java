@@ -1,4 +1,3 @@
-// package codeTree;
 import java.util.*;
 import java.io.*;
 
@@ -130,20 +129,20 @@ class Solution{
 					}
 					
 				}
-				else { // 그냥 혼자 명령에 따라 움직임
+				// 그냥 혼자 명령에 따라 움직임
 					
-					now.row = tempRow;
-					now.col = tempCol;
-				}
+				now.row = tempRow;
+				now.col = tempCol;
+
 
 			}
-			else {
+			else { // 움직일 곳에 벽이 있어서 못 움직임
 				return false;
 			};
 
 		}
 		else { // 밖으로 나가버림
-//			System.out.println(knightNum+" die by out of map");
+			System.out.println(knightNum+" die by out of map");
 			now.live = false;
 			deleteKnight(now.row, now.col, now.h, now.w);
 			return true;
@@ -176,7 +175,7 @@ class Solution{
 		
 		for(int i = row; i<row + h; i++) {
 			for(int j = col; j<col + w; j++) {
-				if(knightMap[i][j] != idx && knightMap[i][j] != 0) { // 다름 기사가 존재한다면 
+				if( knightMap[i][j] != 0 && knightMap[i][j] != idx) { // 다름 기사가 존재한다면 
 					result.add(knightMap[i][j]);
 				}
 			}
