@@ -54,6 +54,9 @@ public class Main {
 				}
 				else {
 					ColorNode temp = map.get(pid);
+                    if(temp == null) {
+						break;
+					}
 					if(checkMaxDepth(temp)) {
 						ColorNode now = new ColorNode(mid, temp, color, depth);
 						map.put(mid, now);
