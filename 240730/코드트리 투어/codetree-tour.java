@@ -178,7 +178,7 @@ public class Main {
 		}
 	}
 	
-	public static void Main(String[]args) throws Exception{
-		new Tour().solution();
+	public static void main(String[]args) throws Exception{
+		new Main().solution();
 	}
 }
