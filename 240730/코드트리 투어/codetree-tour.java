@@ -98,10 +98,7 @@ public class Main {
 					
 					break;
 				case 400:
-//					if(first) {
-//						getMinCost();
-//						first = false;
-//					}
+
 //					printMap();
 					
 					for(int i = 0; i<products.size(); i++) {
@@ -163,8 +160,13 @@ public class Main {
 				for(int k = 0; k<N; k++) {
 					Map[i][j] = Math.min(Map[i][j], Map[i][k] + Map[k][j]);
 				}
+			}	
+		}
+		
+		for(int i = 0; i<N; i++) {
+			for(int j = 0; j<N; j++) {
+				Map[0][i] = Math.min(Map[0][i], Map[0][j]+Map[j][i]);
 			}
-				
 		}
 	}
 	
