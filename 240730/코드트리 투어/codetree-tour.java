@@ -5,21 +5,7 @@ import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-//class Node{
-//	int w;
-//	int id;
-//	int cost = 0;
-//	
-//	Node(int id){
-//
-//		this.id = id;
-//	}
-//	
-////	@Override 
-////	public int compareTo(Node o) {
-////		return this.gain == o.gain ? this.id - o.id : Integer.compare(this.gain, o.gain)*-1 ;
-////	}
-//}
+
 
 class Product implements Comparable<Product>{
 	int id;
@@ -117,11 +103,13 @@ public class Main {
 						while(removed[now.id] && i < products.size()) {
 							now = products.get(i++);
 						}
-						if(now.gain <0) {
+						if(now.gain <0 || removed[now.id]) {
 							System.out.println(-1);
 						}
 						else {
+							
 							System.out.println(now.id);
+					
 							removed[now.id] = true;
 						}
 						
