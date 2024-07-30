@@ -70,10 +70,10 @@ public class Main {
 						Map[v][u] = Math.min(Map[v][u], w);
 						Map[u][v] = Math.min(Map[u][v], w);
 						
-						for(int i = 0; i<N; i++) {
-							Map[i][v] = Math.min(Map[i][v], Map[i][u]+w);
-							Map[i][u] = Math.min(Map[i][u], Map[i][v]+w);
-						}
+//						for(int i = 0; i<N; i++) {
+//							Map[i][v] = Math.min(Map[i][v], Map[i][u]+w);
+//							Map[i][u] = Math.min(Map[i][u], Map[i][v]+w);
+//						}
 						
 					}
 					getMinMap();
