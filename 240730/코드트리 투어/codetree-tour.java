@@ -86,31 +86,19 @@ public class Main {
 					break;
 				case 400:
 
-					if(before != S) {
-						getMinMap();
-						ArrayList<Product> temp = new ArrayList<>();
-						while(!products.isEmpty()) {
-							Product ptemp = products.poll();
-							if(!removed[ptemp.id])
-								temp.add(ptemp);
-						}
-						
-						for(int i = 0; i< temp.size(); i++) {
-							Product ptemp = temp.get(i);
-							ptemp.gain = ptemp.revenue - Map[S][ptemp.dest];
-							products.add(ptemp);
-						}
-						before = S;
-					}
 
-					
+		
 					Product now = null;
 					
 					if(products.size()>0) {
-						int i = 1;
 						now = products.poll();
-
-						if(now.gain <0 || removed[now.id]) {
+						while(removed[now.id]&& !products.isEmpty()) {
+							now = products.poll();
+						}
+						
+						
+						if(now.gain <0) {
+				
 							System.out.println(-1);
 							products.add(now);
 						}
@@ -131,7 +119,18 @@ public class Main {
 					break;
 				case 500:
 					S = Integer.parseInt(st.nextToken());
+					ArrayList<Product> temp = new ArrayList<>();
+					while(!products.isEmpty()) {
+						Product ptemp = products.poll();
+						if(!removed[ptemp.id])
+							temp.add(ptemp);
+					}
 					
+					for(int i = 0; i< temp.size(); i++) {
+						Product ptemp = temp.get(i);
+						ptemp.gain = ptemp.revenue - Map[S][ptemp.dest];
+						products.add(ptemp);
+					}
 					break;
 			}
 		}
