@@ -54,7 +54,7 @@ public class Main {
 						int v = Integer.parseInt(st.nextToken());
 						int u = Integer.parseInt(st.nextToken());
 						int w = Integer.parseInt(st.nextToken());
-						
+//						System.out.println(v+" "+u+" "+w);
 						Map[v][u] = Math.min(Map[v][u], w);
 						Map[u][v] = Math.min(Map[u][v], w);
 						
@@ -73,6 +73,7 @@ public class Main {
 					int revenue = Integer.parseInt(st.nextToken());
 					int dest = Integer.parseInt(st.nextToken());
 					products.add(new Product(id, revenue, dest));
+					removed[id] = false;
 					
 					break;
 				case 300:
@@ -82,15 +83,15 @@ public class Main {
 					break;
 				case 400:
 
-//					printMap();
 					if(before != S) {
 						for(int i = 0; i<products.size(); i++) {
 							Product now = products.get(i);
 							now.gain = now.revenue - Map[S][now.dest];
-//							System.out.println(now.id+" : "+now.gain);
+//							System.out.println(now.id+" : "+now.gain +" "+removed[now.id]);
 						}
 //						System.out.println();
 						before = S;
+//						printMap();
 					}
 
 					
