@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
@@ -36,7 +37,7 @@ public class Main {
 	int M;
 	int S = 0;
 	boolean[] removed = new boolean[300001];
-	
+	int[] D = new int[2000];
 	
 	public void solution() throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -52,7 +53,7 @@ public class Main {
 					N = Integer.parseInt(st.nextToken());
 					M = Integer.parseInt(st.nextToken());
 					initMap();
-//					initNode();
+					
 					for(int m = 0; m<M; m++) {
 						int v = Integer.parseInt(st.nextToken());
 						int u = Integer.parseInt(st.nextToken());
@@ -75,7 +76,7 @@ public class Main {
 					int id = Integer.parseInt(st.nextToken());
 					int revenue = Integer.parseInt(st.nextToken());
 					int dest = Integer.parseInt(st.nextToken());
-					products.add(new Product(id, revenue, dest, revenue - Map[S][dest]));
+					products.add(new Product(id, revenue, dest, revenue - D[dest]));
 					removed[id] = false;
 					
 					break;
@@ -119,6 +120,7 @@ public class Main {
 					break;
 				case 500:
 					S = Integer.parseInt(st.nextToken());
+					getMinMap();
 					ArrayList<Product> temp = new ArrayList<>();
 					while(!products.isEmpty()) {
 						Product ptemp = products.poll();
@@ -128,7 +130,7 @@ public class Main {
 					
 					for(int i = 0; i< temp.size(); i++) {
 						Product ptemp = temp.get(i);
-						ptemp.gain = ptemp.revenue - Map[S][ptemp.dest];
+						ptemp.gain = ptemp.revenue - D[ptemp.dest];
 						products.add(ptemp);
 					}
 					break;
@@ -147,27 +149,27 @@ public class Main {
 	
 	}
 	
-//	protected void initNode() {
-//		nodeList = new Node[N];
-//		for(int i = 0; i<N; i++) {
-//			nodeList[i] = new Node(i);
-//		}
-//	}
 	
 	protected void getMinMap() {
-		for(int i = 0; i<N; i++) {
-			for(int j = 0; j<N; j++) {
-				for(int k = 0; k<N; k++) {
-					Map[i][j] = Math.min(Map[i][j], Map[i][k] + Map[k][j]);
-				}
-			}	
-		}
-		
-		for(int i = 0; i<N; i++) {
-			for(int j = 0; j<N; j++) {
-				Map[0][i] = Math.min(Map[0][i], Map[0][j]+Map[j][i]);
-			}
-		}
+		boolean[] visit = new boolean[N];
+        Arrays.fill(D, inf);
+        D[S] = 0;
+
+        for (int i = 0; i < N - 1; i++) {
+            int v = 0, minDist = inf;
+            for (int j = 0; j < N; j++) {
+                if (!visit[j] && minDist > D[j]) {
+                    v = j;
+                    minDist = D[j];
+                }
+            }
+            visit[v] = true;
+            for (int j = 0; j < N; j++) {
+                if (!visit[j] && D[v] != inf && Map[v][j] != inf && D[j] > D[v] + Map[v][j]) {
+                    D[j] = D[v] + Map[v][j];
+                }
+            }
+        }
 	}
 	
 	protected void printMap() {
