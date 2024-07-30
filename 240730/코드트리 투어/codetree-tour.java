@@ -97,7 +97,7 @@ public class Main {
 						}
 						
 						
-						if(now.gain <0) {
+						if(now.gain <0 || removed[now.id]) {
 				
 							System.out.println(-1);
 							products.add(now);
