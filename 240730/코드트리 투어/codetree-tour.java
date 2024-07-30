@@ -46,7 +46,7 @@ public class Main {
 		for(int q = 0; q<Q; q++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			int query = Integer.parseInt(st.nextToken());
-			int before = 0;
+			
 			
 			switch(query) {
 				case 100:
@@ -86,37 +86,7 @@ public class Main {
 					
 					break;
 				case 400:
-
-
-		
-					Product now = null;
-					
-					if(products.size()>0) {
-						now = products.poll();
-						while(removed[now.id]&& !products.isEmpty()) {
-							now = products.poll();
-						}
-						
-						
-						if(now.gain <0 || removed[now.id]) {
-				
-							System.out.println(-1);
-							products.add(now);
-						}
-						else {
-							
-							System.out.println(now.id);
-					
-							removed[now.id] = true;
-						}
-						
-					}
-					else {
-						System.out.println(-1);
-					}
-				
-
-					
+					System.out.println(sellPackage());
 					break;
 				case 500:
 					S = Integer.parseInt(st.nextToken());
@@ -181,6 +151,21 @@ public class Main {
 			System.out.println();
 		}
 	}
+	
+    protected int sellPackage() {
+        while (!products.isEmpty()) {
+            Product p = products.peek();
+            // 최적이라고 생각한 여행 상품이 판매 불가능 하다면 while문을 빠져나가 -1을 반환합니다.
+            if (p.gain < 0) {
+                break;
+            }
+            products.poll();
+            if (!removed[p.id]) {
+                return p.id; // 해당 여행 상품이 취소되지 않았다면 정상 판매되므로 id를 반환합니다
+            }
+        }
+        return -1;
+    }
 	
 	public static void main(String[]args) throws Exception{
 		new Main().solution();
