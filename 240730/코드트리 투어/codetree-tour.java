@@ -76,7 +76,8 @@ public class Main {
 						}
 						
 					}
-					getMinCost();
+					getMinMap();
+				
 					break;
 					
 				case 200:
@@ -101,11 +102,14 @@ public class Main {
 //						getMinCost();
 //						first = false;
 //					}
+//					printMap();
+					
 					for(int i = 0; i<products.size(); i++) {
 						Product now = products.get(i);
 						now.gain = now.revenue - Map[S][now.dest];
 //						System.out.println(now.id+" : "+now.gain);
 					}
+//					System.out.println();
 					
 					Collections.sort(products);
 					Product now = null;
@@ -153,10 +157,15 @@ public class Main {
 //		}
 //	}
 	
-	protected void getMinCost() {
-
-		
-		
+	protected void getMinMap() {
+		for(int i = 0; i<N; i++) {
+			for(int j = 0; j<N; j++) {
+				for(int k = 0; k<N; k++) {
+					Map[i][j] = Math.min(Map[i][j], Map[i][k] + Map[k][j]);
+				}
+			}
+				
+		}
 	}
 	
 	protected void printMap() {
@@ -169,7 +178,7 @@ public class Main {
 		}
 	}
 	
-	public static void main(String[]args) throws Exception{
-		new Main().solution();
+	public static void Main(String[]args) throws Exception{
+		new Tour().solution();
 	}
 }
