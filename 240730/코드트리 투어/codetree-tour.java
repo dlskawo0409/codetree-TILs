@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 //class Node{
@@ -47,6 +48,7 @@ public class Main {
 	int N;
 	int M;
 	int S = 0;
+	boolean[] removed = new boolean[300001];
 	public void solution() throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		Q = Integer.parseInt(br.readLine());
@@ -54,7 +56,7 @@ public class Main {
 		for(int q = 0; q<Q; q++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			int query = Integer.parseInt(st.nextToken());
-			boolean first = true;
+			int before = -1;
 			
 			switch(query) {
 				case 100:
@@ -89,35 +91,38 @@ public class Main {
 					break;
 				case 300:
 					int remove = Integer.parseInt(st.nextToken());
-					for(int i = 0; i<products.size(); i++) {
-						if(products.get(i).id == remove) {
-							products.remove(i);
-							break;
-						}
-					}
+					removed[remove] = true;
 					
 					break;
 				case 400:
 
 //					printMap();
-					
-					for(int i = 0; i<products.size(); i++) {
-						Product now = products.get(i);
-						now.gain = now.revenue - Map[S][now.dest];
-//						System.out.println(now.id+" : "+now.gain);
+					if(before != S) {
+						for(int i = 0; i<products.size(); i++) {
+							Product now = products.get(i);
+							now.gain = now.revenue - Map[S][now.dest];
+//							System.out.println(now.id+" : "+now.gain);
+						}
+//						System.out.println();
+						before = S;
 					}
-//					System.out.println();
+
 					
 					Collections.sort(products);
 					Product now = null;
+					
 					if(products.size()>0) {
+						int i = 1;
 						now = products.get(0);
+						while(removed[now.id] && i < products.size()) {
+							now = products.get(i++);
+						}
 						if(now.gain <0) {
 							System.out.println(-1);
 						}
 						else {
 							System.out.println(now.id);
-							products.remove(0);
+							removed[now.id] = true;
 						}
 						
 					}
