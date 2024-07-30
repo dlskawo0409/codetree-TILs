@@ -13,10 +13,11 @@ class Product implements Comparable<Product>{
 	int dest;
 	int gain = revenue -100;
 	
-	Product(int id, int revenue, int dest){
+	Product(int id, int revenue, int dest, int gain){
 		this.id = id;
 		this.revenue = revenue;
 		this.dest = dest;
+		this.gain = gain;
 	}
 	
 	@Override
@@ -30,11 +31,13 @@ public class Main {
 	int Q;
 	int inf = 101;
 	int[][]Map;
-	ArrayList<Product> products = new ArrayList<>();
+	PriorityQueue<Product> products = new PriorityQueue<>();
 	int N;
 	int M;
 	int S = 0;
 	boolean[] removed = new boolean[300001];
+	
+	
 	public void solution() throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		Q = Integer.parseInt(br.readLine());
@@ -42,7 +45,7 @@ public class Main {
 		for(int q = 0; q<Q; q++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			int query = Integer.parseInt(st.nextToken());
-			int before = -1;
+			int before = 0;
 			
 			switch(query) {
 				case 100:
@@ -72,7 +75,7 @@ public class Main {
 					int id = Integer.parseInt(st.nextToken());
 					int revenue = Integer.parseInt(st.nextToken());
 					int dest = Integer.parseInt(st.nextToken());
-					products.add(new Product(id, revenue, dest));
+					products.add(new Product(id, revenue, dest, revenue - Map[S][dest]));
 					removed[id] = false;
 					
 					break;
@@ -84,28 +87,32 @@ public class Main {
 				case 400:
 
 					if(before != S) {
-						for(int i = 0; i<products.size(); i++) {
-							Product now = products.get(i);
-							now.gain = now.revenue - Map[S][now.dest];
-//							System.out.println(now.id+" : "+now.gain +" "+removed[now.id]);
+						getMinMap();
+						ArrayList<Product> temp = new ArrayList<>();
+						while(!products.isEmpty()) {
+							Product ptemp = products.poll();
+							if(!removed[ptemp.id])
+								temp.add(ptemp);
 						}
-//						System.out.println();
+						
+						for(int i = 0; i< temp.size(); i++) {
+							Product ptemp = temp.get(i);
+							ptemp.gain = ptemp.revenue - Map[S][ptemp.dest];
+							products.add(ptemp);
+						}
 						before = S;
-//						printMap();
 					}
 
 					
-					Collections.sort(products);
 					Product now = null;
 					
 					if(products.size()>0) {
 						int i = 1;
-						now = products.get(0);
-						while(removed[now.id] && i < products.size()) {
-							now = products.get(i++);
-						}
+						now = products.poll();
+
 						if(now.gain <0 || removed[now.id]) {
 							System.out.println(-1);
+							products.add(now);
 						}
 						else {
 							
